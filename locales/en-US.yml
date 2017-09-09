@@ -1,0 +1,51 @@
+errors:
+  user:
+    email-password-not-match: Email and password not matched
+    not-available: Not available
+  in-use: In using
+  forbidden: Forbidden
+  bad-action: Bad action
+  not-allow: Not allowed
+nut:
+  logs:
+    user:
+      sign-up: Create an account.
+      confirm: Confirm your account.
+      lock: Lock your account.
+      unlock: Unlock your account.
+      reset-password: Reset your password.
+      change-password: Change your password.
+      sign-out: Sign out successful.
+      sign-in:
+        failed: Sign in failed.
+        success: Sign in successful.
+  emails:
+    confirm:
+      subject: Confirm message
+      body: You can confirm your email via the following link.<br/> <a href="{{.Home}}/my/users/confirm/{{.Token}}">Confirm Account</a>
+    unlock:
+      subject: unlock message
+      body: Click the following link to unlock your account <br/> <a href="{{.Home}}/my/users/unlock/{{.Token}}">Unlock Account</a>
+    reset-password:
+      subject: Reset password message
+      body:  Please use the following link <br/> <a href="{{.Home}}/my/users/reset-password/{{.Token}}">Reset Password</a><br/>please ignore/discard, if you don't want reset password. <br/> If you did not visit the link, your password will not be changed.
+  errors:
+    please-sign-in: Please sign in at first.
+    user:
+      email-already-exist: Email was already exist.
+      already-confirm: User already confirm.
+      not-lock: User not locked.
+      bad-password: Bad password.
+      not-confirm: User not confirmed.
+      is-lock: User is locked.
+survey:
+  emails:
+    apply:
+      subject: Apply
+      body: You apply {{.Title}}, you can click <a href="{{.Home}}{{.Cancel}}">{{.Home}}{{.Cancel}}</a> to cancel it.
+    cancel:
+      subject: Cancel
+      body: You cancel {{.Title}}
+  errors:
+    expired: Expired
+    already-apply: Already apply
