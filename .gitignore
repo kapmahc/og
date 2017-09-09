@@ -1,0 +1,10 @@
+# build
+/build/
+/dist.tar.bz2
+
+# editor
+.*.swp
+.*.un~
+
+# test
+/tmp/
