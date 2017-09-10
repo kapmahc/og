@@ -16,5 +16,18 @@ export default {
   'languages.zh-Hans': '简体中文',
   'languages.zh-Hant': '繁體中文',
 
-  'buttons.submit': 'Submit'
+  'buttons.submit': 'Submit',
+
+  'attributes.email': 'Email',
+  'attributes.username': 'Username',
+  'attributes.password': 'Password',
+  'attributes.passwordConfirmation': 'Password confirmation',
+
+  'placeholders.email': "We'll never share your email with anyone else",
+  'placeholders.username': 'Length must between 6 & 32',
+  'placeholders.password': 'Length must between 6 & 32',
+  'placeholders.passwordConfirmation': 'Shall be identical',
+
+  'nut.users.sign-in.title': 'Sign in',
+  'nut.users.sign-up.title': 'Sign up'
 }
