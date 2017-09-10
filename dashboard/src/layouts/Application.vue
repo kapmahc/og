@@ -1,47 +1,23 @@
 <template>
   <div>
-    <x-header :right-options="{showMore: true}" @on-click-more="showMenus = true">with more menu</x-header>
+    <top-header />
     <slot/>
-    <div v-transfer-dom>
-      <actionsheet
-        :menus="languages.map((l)=>$t(`languages.${l}`))"
-        @on-click-menu="switchLanguage"
-        v-model="showMenus"
-        show-cancel />
-    </div>
+    <bottom-footer />
   </div>
 </template>
 
 <script>
-import { cookie, XHeader, Actionsheet, TransferDom, ButtonTab, ButtonTabItem } from 'vux'
-
-import {LOCALE} from '@/constants'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 export default {
   name: 'application-layout',
-  directives: {
-    TransferDom
-  },
   components: {
-    XHeader,
-    Actionsheet,
-    ButtonTab,
-    ButtonTabItem
+    'top-header': Header,
+    'bottom-footer': Footer
   },
   data () {
     return {
-      languages: ['en-US', 'zh-Hans', 'zh-Hant'],
-      showMenus: false
-    }
-  },
-  methods: {
-    switchLanguage (i) {
-      if (i < this.languages.length) {
-        var lang = this.languages[i]
-        localStorage.setItem(LOCALE, lang)
-        cookie.set(LOCALE, lang, {path: '/', expires: 1024})
-        this.$i18n.set(lang)
-      }
     }
   }
 }
