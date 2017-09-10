@@ -90,7 +90,7 @@ func setLocale(lang, code, message string) {
 func loadLocales(dir string) error {
 	// load from database
 	var items []Locale
-	if err := _db.Select([]string{"lang", "code", "message"}).Find(&items).Error; err != nil {
+	if err := DB().Select([]string{"lang", "code", "message"}).Find(&items).Error; err != nil {
 		return err
 	}
 	for _, it := range items {
@@ -153,8 +153,8 @@ func loopLocaleFileNode(r string, m map[interface{}]interface{}, f func(string, 
 	return nil
 }
 
-// Langs support languages
-func Langs() []string {
+// Languages support languages
+func Languages() []string {
 	var items []string
 	for k := range _locales {
 		items = append(items, k)

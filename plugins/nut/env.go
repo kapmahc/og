@@ -1,8 +1,7 @@
 package nut
 
 import (
-	"os"
-	"path"
+	"fmt"
 
 	"github.com/spf13/viper"
 )
@@ -12,11 +11,42 @@ func IsProduction() bool {
 	return viper.GetString("env") == "production"
 }
 
+// DataSource datasource url
+func DataSource() string {
+	//"user=%s password=%s host=%s port=%d dbname=%s sslmode=%s"
+	args := ""
+	for k, v := range viper.GetStringMapString("database.args") {
+		args += fmt.Sprintf(" %s=%s ", k, v)
+	}
+	return args
+
+	//"postgres://pqgotest:password@localhost/pqgotest?sslmode=verify-full")
+	// return fmt.Sprintf(
+	// 	"%s://%s:%s@%s:%d/%s?sslmode=%s",
+	// 	viper.GetString("database.driver"),
+	// 	viper.GetString("database.args.user"),
+	// 	viper.GetString("database.args.password"),
+	// 	viper.GetString("database.args.host"),
+	// 	viper.GetInt("database.args.port"),
+	// 	viper.GetString("database.args.dbname"),
+	// 	viper.GetString("database.args.sslmode"),
+	// )
+}
+
 func init() {
-	pwd, _ := os.Getwd()
-	viper.SetDefault("uploader", map[string]interface{}{
-		"dir":  path.Join(pwd, "public", "files"),
-		"home": "http://localhost/files",
+
+	viper.SetEnvPrefix("og")
+	viper.BindEnv("env")
+
+	viper.SetConfigName("config")
+	viper.SetConfigType("toml")
+	viper.AddConfigPath(".")
+
+	viper.SetDefault("env", "development")
+	viper.SetDefault("s3", map[string]interface{}{
+		"endpoint":   "http://127.0.0.1:9000",
+		"access_key": "guest",
+		"secret_key": "change-me",
 	})
 	viper.SetDefault("redis", map[string]interface{}{
 		"host": "localhost",

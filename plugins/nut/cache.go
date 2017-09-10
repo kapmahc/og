@@ -16,7 +16,7 @@ func CacheSet(k string, v interface{}, ttl time.Duration) error {
 		return err
 	}
 
-	c := _redis.Get()
+	c := Redis().Get()
 	defer c.Close()
 	_, err := c.Do("SET", k, buf.Bytes(), "EX", int(ttl/time.Second))
 	return err
@@ -24,7 +24,7 @@ func CacheSet(k string, v interface{}, ttl time.Duration) error {
 
 // CacheGet get
 func CacheGet(k string, v interface{}) error {
-	c := _redis.Get()
+	c := Redis().Get()
 	defer c.Close()
 	bys, err := redis.Bytes(c.Do("GET", k))
 

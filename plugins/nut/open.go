@@ -17,6 +17,11 @@ import (
 var _db *gorm.DB
 var _redis *redis.Pool
 
+// Redis redis pool
+func Redis() *redis.Pool {
+	return _redis
+}
+
 // DB gorm database
 func DB() *gorm.DB {
 	return _db
@@ -44,7 +49,7 @@ func Open(f cli.ActionFunc) cli.ActionFunc {
 
 		log.Infof("read config from %s", viper.ConfigFileUsed())
 		// open database
-		db, err := gorm.Open(viper.GetString("database.driver"), viper.GetString("database.source"))
+		db, err := gorm.Open(viper.GetString("database.driver"), DataSource())
 		if err != nil {
 			return err
 		}
