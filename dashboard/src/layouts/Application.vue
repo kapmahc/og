@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { XHeader, Actionsheet, TransferDom, ButtonTab, ButtonTabItem } from 'vux'
+import { cookie, XHeader, Actionsheet, TransferDom, ButtonTab, ButtonTabItem } from 'vux'
 
 import {LOCALE} from '@/constants'
 
@@ -39,6 +39,7 @@ export default {
       if (i < this.languages.length) {
         var lang = this.languages[i]
         localStorage.setItem(LOCALE, lang)
+        cookie.set(LOCALE, lang, {path: '/', expires: 1024})
         this.$i18n.set(lang)
       }
     }
