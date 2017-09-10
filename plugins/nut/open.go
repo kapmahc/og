@@ -65,6 +65,7 @@ func Open(f cli.ActionFunc) cli.ActionFunc {
 			return err
 		}
 		_hmacKey = []byte(viper.GetString("secrets.hmac"))
+		_jwtKey = []byte(viper.GetString("secrets.jwt"))
 		// open redis
 		_redis = &redis.Pool{
 			MaxIdle:     3,

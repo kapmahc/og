@@ -6,22 +6,25 @@ import (
 	"fmt"
 	"html/template"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/text/language"
 	yaml "gopkg.in/yaml.v2"
 )
 
 const (
-	_defaultTTL = time.Hour * 24 * 30
+	// LOCALE locale key
+	LOCALE = "locale"
 )
 
 var (
-	_locales = make(map[string]map[string]string)
+	_locales       = make(map[string]map[string]string)
+	_localeMatcher language.Matcher
 )
 
 //Locale locale
@@ -88,24 +91,17 @@ func setLocale(lang, code, message string) {
 
 // loadLocales locales from  database and yaml files
 func loadLocales(dir string) error {
-	// load from database
-	var items []Locale
-	if err := DB().Select([]string{"lang", "code", "message"}).Find(&items).Error; err != nil {
-		return err
-	}
-	for _, it := range items {
-		setLocale(it.Lang, it.Code, it.Message)
-	}
-	// load from files
-	return filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-		names := strings.Split(info.Name(), ".")
-		if info.Mode().IsRegular() && len(names) == 3 && names[2] == "yaml" {
-			if err != nil {
-				return err
-			}
 
+	// load from files
+	if err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		const ext = ".yml"
+		name := info.Name()
+		if info.Mode().IsRegular() && filepath.Ext(name) == ext {
 			log.Debugf("Find locale file %s", path)
-			lang, err := language.Parse(names[1])
+			lang, err := language.Parse(name[:len(name)-len(ext)])
 			if err != nil {
 				return err
 			}
@@ -120,21 +116,42 @@ func loadLocales(dir string) error {
 				return err
 			}
 
-			return loopLocaleFileNode(names[0], val, func(code string, message string) error {
+			return loopLocaleFileNode("", val, func(code string, message string) error {
 				// log.Debugf("%s.%s = %s", lang.String(), code, message)
 				setLocale(lang.String(), code, message)
 				return nil
 			})
 		}
 		return nil
-	})
+	}); err != nil {
+		return err
+	}
+
+	// load from database
+	var items []Locale
+	if err := DB().Select([]string{"lang", "code", "message"}).Find(&items).Error; err != nil {
+		return err
+	}
+	for _, it := range items {
+		setLocale(it.Lang, it.Code, it.Message)
+	}
+
+	// init matcher
+	var tags []language.Tag
+	for _, l := range Languages() {
+		tags = append(tags, language.Make(l))
+	}
+	_localeMatcher = language.NewMatcher(tags)
+	return nil
 }
 
 func loopLocaleFileNode(r string, m map[interface{}]interface{}, f func(string, string) error) error {
 	for k, v := range m {
 		ks, ok := k.(string)
 		if ok {
-			ks = r + "." + ks
+			if r != "" {
+				ks = r + "." + ks
+			}
 			vs, ok := v.(string)
 			if ok {
 				if e := f(ks, vs); e != nil {
@@ -160,4 +177,28 @@ func Languages() []string {
 		items = append(items, k)
 	}
 	return items
+}
+func detectLocale(r *http.Request) string {
+	// 1. Check URL arguments.
+	if lang := r.URL.Query().Get(LOCALE); lang != "" {
+		return lang
+	}
+
+	// 2. Get language information from cookies.
+	if ck, er := r.Cookie(LOCALE); er == nil {
+		return ck.Value
+	}
+
+	// 3. Get language information from 'Accept-Language'.
+	if al := r.Header.Get("Accept-Language"); len(al) > 4 {
+		return al[:5] // Only compare first 5 letters.
+	}
+
+	return ""
+}
+
+// LocaleMiddleware detect locale
+func LocaleMiddleware(c *gin.Context) {
+	tag, _, _ := _localeMatcher.Match(language.Make(detectLocale(c.Request)))
+	c.Set(LOCALE, tag.String())
 }

@@ -14,6 +14,7 @@ func Router() *gin.Engine {
 	routerOnce.Do(func() {
 		// gin.SetMode(gin.ReleaseMode)
 		_router = gin.Default()
+		_router.Use(LocaleMiddleware)
 	})
 	return _router
 }
