@@ -23,6 +23,9 @@ gvm use go1.9 --default
 - go-plus
 - git-plus
 - file-icons
+- linter
+- editorconfig
+- language-vue
 
 ## Notes
 

@@ -73,8 +73,17 @@ const webpackConfig = {
     ]
   }
 }
-
+// my add
 const vuxLoader = require('vux-loader')
 module.exports = vuxLoader.merge(webpackConfig, {
-  plugins: ['vux-ui']
+  plugins: [
+    'vux-ui',
+    {
+      name: 'i18n',
+      vuxStaticReplace: false,
+      staticReplace: false,
+      extractToFiles: 'src/locales/components.yml',
+      localeList: ['en', 'zh-CN']
+    }
+  ]
 })
