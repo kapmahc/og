@@ -18,6 +18,7 @@
     "vue-router": "^2.7.0",
     "vuex": "^2.4.0",
     "vuex-i18n": "^1.7.0",
+    "vuex-router-sync": "^4.3.1",
     "vux": "^2.5.12"
   },
   "devDependencies": {

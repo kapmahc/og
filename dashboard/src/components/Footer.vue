@@ -1,5 +1,5 @@
 <template>
-  <tabbar>
+  <tabbar style="position: fixed">
     <tabbar-item selected link="/component/demo">
       <img slot="icon" src="../assets/icons/home.png">
     </tabbar-item>

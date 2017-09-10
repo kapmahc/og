@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'nut-home',
+  name: 'nut-users-shared-links',
   data () {
     return {
 

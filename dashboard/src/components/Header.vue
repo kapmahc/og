@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <x-header :right-options="{showMore: true}" @on-click-more="showMenus = true">with more menu</x-header>
+  <div style="width:100%;position:absolute;left:0;top:0;z-index:100;">
+    <x-header
+      :right-options="{showMore: true}"
+      @on-click-more="showMenus = true">
+      with more menu
+    </x-header>
     <div v-transfer-dom>
       <actionsheet
         :menus="languages.map((l)=>$t(`languages.${l}`))"

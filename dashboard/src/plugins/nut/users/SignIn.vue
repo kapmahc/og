@@ -1,9 +1,9 @@
 <template>
-  <application-layout>
+  <div>
     <group>
       <x-input title="邮箱" name="email" placeholder="请输入邮箱地址" is-type="email"></x-input>
     </group>
-  </application-layout>
+  </div>
 </template>
 
 <script>

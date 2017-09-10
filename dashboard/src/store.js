@@ -18,4 +18,12 @@ Vue.i18n.add('zh-Hant', zhHant)
 
 Vue.i18n.set(localStorage.getItem(LOCALE) || 'en-US')
 
+store.registerModule('vux', {
+  state: {
+    demoScrollTop: 0,
+    isLoading: false,
+    direction: 'forward'
+  }
+})
+
 export default store
