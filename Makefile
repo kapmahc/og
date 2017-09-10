@@ -8,7 +8,7 @@ AUTHOR_EMAIL=`git config --get user.email`
 COPYRIGHT=`head -n 1 LICENSE`
 USAGE=`sed -n '3p' README.md`
 
-build: frontend backend
+build: backend frontend 
 	tar jcf dist.tar.bz2 $(dist)
 
 
@@ -17,16 +17,15 @@ backend:
 	-cp -r locales db templates $(dist)/
 
 frontend:
-	mkdir -p $(dist)
-	cd desktop && npm run build
-	-cp -r desktop/build $(dist)/public
+	cd dashboard && npm run build
+	-cp -r dashboard/dist $(dist)/public
 
 
 clean:
-	-rm -r $(dist) dist.tar.bz2 desktop/build
+	-rm -r $(dist) dist.tar.bz2 dashboard/dist
 
 
 init:
 	go get -u github.com/kardianos/govendor
 	govendor sync
-	cd desktop && npm install
+	cd dashboard && npm install
