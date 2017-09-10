@@ -22,11 +22,11 @@ var (
 	AuthorEmail string
 )
 
-var commands []cli.Command
+var _commands []cli.Command
 
 // AddConsoleTask register console tasks
 func AddConsoleTask(args ...cli.Command) {
-	commands = append(commands, args...)
+	_commands = append(_commands, args...)
 }
 
 // Main entry
@@ -51,7 +51,7 @@ func Main(args ...string) error {
 	ap.Copyright = Copyright
 	ap.Usage = Usage
 	ap.EnableBashCompletion = true
-	ap.Commands = commands
+	ap.Commands = _commands
 
 	return ap.Run(args)
 }
