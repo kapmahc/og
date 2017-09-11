@@ -45,12 +45,7 @@
           Title
         </x-header>
 
-        <!-- remember to import BusPlugin in main.js if you use components: x-img and sticky -->
-        <transition
-        @after-enter="$vux.bus && $vux.bus.$emit('vux:after-view-enter')"
-        :name="'vux-pop-' + (direction === 'forward' ? 'in' : 'out')">
-          <router-view class="router-view"></router-view>
-        </transition>
+        <router-view class="router-view" />
 
         <tabbar slot="bottom">
           <tabbar-item link="/component/demo">

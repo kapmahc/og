@@ -29,5 +29,8 @@ export default {
   'placeholders.passwordConfirmation': 'Shall be identical',
 
   'nut.users.sign-in.title': 'Sign in',
-  'nut.users.sign-up.title': 'Sign up'
+  'nut.users.sign-up.title': 'Sign up',
+  'nut.users.forgot-password.title': 'Forgot password?',
+  'nut.users.confirm.title': 'Confirm my account',
+  'nut.users.unlock.title': 'Unlock my account'
 }

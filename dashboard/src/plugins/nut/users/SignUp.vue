@@ -33,11 +33,14 @@
         :text="$t('buttons.submit')"
         />
     </group>
+    <users-shared-links />
   </div>
 </template>
 
 <script>
 import { XInput, Group, XButton, Cell } from 'vux'
+
+import SharedLinks from './SharedLinks'
 
 export default {
   name: 'nut-users-sign-up',
@@ -45,7 +48,8 @@ export default {
     XInput,
     XButton,
     Group,
-    Cell
+    Cell,
+    'users-shared-links': SharedLinks
   },
   data () {
     return {
